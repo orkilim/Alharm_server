@@ -14,10 +14,12 @@ module.exports = {
       const { guards } = user
       const client = twilio(TWILIO_SMS_SID, TWILIO_SMS_AUTH_TOKEN)
 
+      const { username, address } = user
+
       await Promise.all(guards.map((contact) => {
         client.messages
         .create({
-          body: 'al-harmmmmmmm!!!',
+          body: `${username} is in danger! go and help her! she is in ${address}`,
           from: '+972525080684',
           to: contact.phoneNumber
         })
