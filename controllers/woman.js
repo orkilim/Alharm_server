@@ -1,20 +1,20 @@
 const Woman = require('../models/woman')
+const Event = require('../models/events')
 const { TWILIO_SMS_SID, TWILIO_SMS_AUTH_TOKEN } = require('../consts')
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const {validationResult} = require("express-validator");
 const twilio = require('twilio')
-
+const date = require('date-and-time');
 
 module.exports = {
   async sendSMS(req, res, next) {
     try {
       const { phoneNumber = null } = req.query;
       const user = await Woman.findOne({ phoneNumber });
-      const { guards } = user
-      const client = twilio(TWILIO_SMS_SID, TWILIO_SMS_AUTH_TOKEN)
 
-      const { username, address } = user
+      const { guards, username, address } = user
+      const client = twilio(TWILIO_SMS_SID, TWILIO_SMS_AUTH_TOKEN)
 
       await Promise.all(guards.map((contact) => {
         client.messages
@@ -24,6 +24,12 @@ module.exports = {
           to: contact.phoneNumber
         })
       }))
+
+      const now = new Date();
+      const eventDate = date.format(now, 'YYYY/MM/DD HH:mm:ss');
+
+      const event = new Event({ address, eventDate });
+      await event.save();
 
       res.json('sms sent successfully!');
       console.log('sms sent successfully!');

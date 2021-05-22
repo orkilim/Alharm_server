@@ -23,9 +23,11 @@ app.use(express.urlencoded({ extended: true }));
     
 const womanController = require("./routes/woman");
 const guardController = require("./routes/guard");
+const adminController = require("./routes/events");
     
 app.use("/woman", womanController);
 app.use("/guard", guardController);
+app.use("/admin", adminController);
 app.use(bodyParser.json());
 
 
