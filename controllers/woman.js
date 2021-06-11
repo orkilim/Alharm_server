@@ -16,14 +16,14 @@ module.exports = {
       const { guards, username, address } = user
       const client = twilio(TWILIO_SMS_SID, TWILIO_SMS_AUTH_TOKEN)
 
-      await Promise.all(guards.map((contact) => {
-        client.messages
-        .create({
-          body: `${username} is in danger! go and help her! she is in ${address}`,
-          from: '+972525080684',
-          to: contact.phoneNumber
-        })
-      }))
+      // await Promise.all(guards.map((contact) => {
+      //   client.messages
+      //   .create({
+      //     body: `${username} is in danger! go and help her! she is in ${address}`,
+      //     from: '+972525080684',
+      //     to: contact.phoneNumber
+      //   })
+      // }))
 
       const now = new Date();
       const eventDate = date.format(now, 'YYYY/MM/DD HH:mm:ss');
