@@ -14,13 +14,23 @@ module.exports = {
       const user = await Woman.findOne({ phoneNumber });
 
       const { guards, username, address } = user
-      const client = twilio(TWILIO_SMS_SID, TWILIO_SMS_AUTH_TOKEN)
+      // const client = twilio(TWILIO_SMS_SID, TWILIO_SMS_AUTH_TOKEN)
+
+      const client = require('twilio')(TWILIO_SMS_SID, TWILIO_SMS_AUTH_TOKEN);
+
+      client.messages
+        .create({
+          body: `Shir Cohen is in danger! go and help her! she is in Has 2 TLV, apartment number 2`,
+          from: '+17752040287',
+          to: '+972546591881'
+        })
+        .then(message => console.log(message.sid));
 
       // await Promise.all(guards.map((contact) => {
       //   client.messages
       //   .create({
       //     body: `${username} is in danger! go and help her! she is in ${address}`,
-      //     from: '+972525080684',
+      //     from: '+17752040287',
       //     to: contact.phoneNumber
       //   })
       // }))
